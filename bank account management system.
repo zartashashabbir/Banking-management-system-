@@ -1,0 +1,159 @@
+#include<iostream>
+#include<vector>
+#include<string>
+
+using namespace std;
+
+// Define the BankAccount structure
+struct BankAccount {
+    string name;
+    int accountNum;
+    double balance;
+};
+
+// Function to create a new account
+void AddAccount(vector<BankAccount>& accounts, string name, int accountNum, double balance) {
+    BankAccount newAccount = {name, accountNum, balance};
+    accounts.push_back(newAccount);
+}
+
+// Function to show all accounts
+void showAllAccounts(const vector<BankAccount>& accounts) {
+    cout << "\t\tAll Account Holders " << endl;
+    for (int i = 0; i < accounts.size(); i++) {
+        cout << "Name: " << accounts[i].name << " Account Number: " << accounts[i].accountNum << " Balance: " << accounts[i].balance << endl;
+    }
+}
+
+// Function to search for an account
+void searchAccount(const vector<BankAccount>& accounts, int accountNum) {
+    cout << "\t\tAccount Holder " << endl;
+    for (int i = 0; i < accounts.size(); i++) {
+        if (accounts[i].accountNum == accountNum) {
+            cout << "Name: " << accounts[i].name << " Account Number: " << accounts[i].accountNum << " Balance: " << accounts[i].balance << endl;
+            return;
+        }
+    }
+    cout << "\t\tAccount Not Found!" << endl;
+}
+
+// Function to find an account
+BankAccount* findAccount(vector<BankAccount>& accounts, int accountNum) {
+    for (int i = 0; i < accounts.size(); i++) {
+        if (accounts[i].accountNum == accountNum) {
+            return &accounts[i];
+        }
+    }
+    
+}
+
+// Function to deposit money into an account
+void deposit(BankAccount* account, double amount) {
+    account->balance += amount;
+}
+
+// Function to withdraw money from an account
+void withdraw(BankAccount* account, double amount) {
+    if (account->balance >= amount) {
+        account->balance -= amount;
+        cout << "\t\tWithdraw Successfully..." << endl;
+    } else {
+        cout << "\t\tInsufficient Balance..." << endl;
+    }
+}
+
+int main() {
+    vector<BankAccount> bankAccounts;
+    int choice;
+    char op;
+
+    do {
+        system("cls");
+        system("color 5F");
+        cout << "\t\t::Bank Management System" << endl;
+        cout << "\t\t\tMain Menu" << endl;
+        cout << "\t\t1. Create New Account" << endl;
+        cout << "\t\t2. Show All Accounts" << endl;
+        cout << "\t\t3. Search Account" << endl;
+        cout << "\t\t4. Deposit Money" << endl;
+        cout << "\t\t5. Withdraw Money" << endl;
+        cout << "\t\t6. Exit" << endl;
+        cout << "\t\t-------------------------------" << endl;
+        cout << "\t\tEnter Your Choice: ";
+        cin >> choice;
+
+        switch (choice) {
+            case 1: {
+                string name;
+                int accountNum;
+                double balance;
+                cout << "\t\tEnter Name: ";
+                cin >> name;
+                cout << "\t\tEnter Account Number: ";
+                cin >> accountNum;
+                cout << "\t\tEnter Initial Balance: ";
+                cin >> balance;
+                AddAccount(bankAccounts, name, accountNum, balance);
+                cout << "\t\tAccount Created Successfully...." << endl;
+                break;
+            }
+            case 2: {
+                showAllAccounts(bankAccounts);
+                break;
+            }
+            case 3: {
+                int accountNum;
+                cout << "Enter Account Number: ";
+                cin >> accountNum;
+                searchAccount(bankAccounts, accountNum);
+                break;
+            }
+            case 4: {
+                int accountNum;
+                double amount;
+                cout << "\t\tEnter Account Number to Deposit Money: ";
+                cin >> accountNum;
+                BankAccount* account = findAccount(bankAccounts, accountNum);
+                
+                    cout << "\t\tEnter Amount to Deposit: ";
+                    cin >> amount;
+                    deposit(account, amount);
+                    cout << "\t\t" << amount << " Deposit Successfully ...." << endl;
+                   
+                    cout << "\t\tAccount Not Found ..." << endl;
+                
+                break;
+            }
+            case 5: {
+                int accountNum;
+                double amount;
+                cout << "\t\tEnter Account Number to Withdraw Money: ";
+                cin >> accountNum;
+                BankAccount* account = findAccount(bankAccounts, accountNum);
+            
+                    cout << "\t\tEnter Amount to Withdraw: ";
+                    cin >> amount;
+                    withdraw(account, amount);
+                 {
+                    cout << "\t\tAccount Not Found ..." << endl;
+                }
+                break;
+            }
+            case 6: {
+                exit(1);
+                break;
+            }
+        }
+
+        cout << "\t\tDo You Want to Continue or Exit [Yes/No]? ";
+        cin >> op;
+
+    } while (op == 'y' || op == 'Y');
+
+    return 0;
+}
+
+			
+		
+
+			
